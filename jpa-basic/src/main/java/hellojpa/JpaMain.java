@@ -6,6 +6,15 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.List;
 
+/**
+ * 영속성 컨텍스트 - 엔티티를 영구 저장하는 환경
+ * 장점 : 1차 캐시
+ * 동일성 보장
+ * 트랜잭션을 지원하는 쓰기 지연
+ * 변경 감지 (더티 체킹)
+ * 지연 로딩
+ * */
+
 public class JpaMain {
 
     public static void main(String[] args) {
@@ -19,24 +28,27 @@ public class JpaMain {
 
         // code
         try {
-//            Member member = new Member();
-//            member.setId(2L);
-//            member.setName("bonggu");
+            // 트랜잭션을 지원하는 쓰기 지연
+//            Member member1 = new Member(160L, "A");
+//            Member member2 = new Member(161L, "B");
+//
+//            em.persist(member1);
+//            em.persist(member2);
+//            System.out.println("=========");
 
-//            Member findMember = em.find(Member.class, 1L);
-//            findMember.setName("hellojpa");
-//            System.out.println(findMember);
 
-            // jqpl -> 엔티티 대상으로 쿼리 , 장점 데이터베이스 바꿔도됨
-            List<Member> result = em.createQuery("select m from Member as m", Member.class)
-                    .setFirstResult(1)
-                    .setMaxResults(8).getResultList();
+            // dirtch checking (변경감지)
+//            Member member = em.find(Member.class, 150L);
+//            member.setName("changed A");
 
-            for (Member member : result) {
-                System.out.println(member);
-            }
 
-//            em.persist(findMember);
+            // flush - 1차캐시는 유지 , 쓰기지연SQL 저장소 쿼리들만 보내서 DB에 반영함
+            Member member = new Member(200L, "test");
+
+            em.persist(member);
+            em.flush();
+
+            System.out.println("========");
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
