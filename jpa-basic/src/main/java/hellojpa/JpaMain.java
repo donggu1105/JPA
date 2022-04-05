@@ -37,17 +37,24 @@ public class JpaMain {
 //            System.out.println("=========");
 
 
-            // dirtch checking (변경감지)
+//             dirtch checking (변경감지)
 //            Member member = em.find(Member.class, 150L);
 //            member.setName("changed A");
 
 
-            // flush - 1차캐시는 유지 , 쓰기지연SQL 저장소 쿼리들만 보내서 DB에 반영함
-            Member member = new Member(200L, "test");
+//             flush - 1차캐시는 유지 , 쓰기지연SQL 저장소 쿼리들만 보내서 DB에 반영함
+//            Member member = new Member(200L, "test");
+//
+//            em.persist(member);
+//            em.flush();
+
+
+            Member member = new Member();
+            member.setId(1L);
+            member.setName("test");
+            member.setRoleType(RoleType.ADMIN);
 
             em.persist(member);
-            em.flush();
-
             System.out.println("========");
             tx.commit();
         } catch (Exception e) {
