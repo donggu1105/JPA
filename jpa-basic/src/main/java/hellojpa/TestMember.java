@@ -1,14 +1,13 @@
 package hellojpa;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Entity
+//@Entity
 //@Table(uniqueConstraints = ) // 유니크 조건은 이걸로 줄것 그래야 오류났을때 바로 알아봄
-public class Member {
+public class TestMember {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,11 +40,11 @@ public class Member {
 //    private int test;
 
 
-    public Member() {
+    public TestMember() {
 
     }
 
-    public Member(Long id, String name) {
+    public TestMember(Long id, String name) {
         this.name = name;
         this.id = id;
     }
