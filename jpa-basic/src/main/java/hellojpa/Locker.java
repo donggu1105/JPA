@@ -1,2 +1,21 @@
-package hellojpa;public class Locker {
+package hellojpa;
+
+import jpabook.jpashop.domain.Member;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
+public class Locker {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String name;
+
+    @OneToOne(mappedBy = "locker")
+    private TeamMember member;
 }

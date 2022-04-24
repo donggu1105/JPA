@@ -18,7 +18,13 @@ public class TeamMember {
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
+
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
+
     public void setId(Long id) {
+
         this.id = id;
     }
 

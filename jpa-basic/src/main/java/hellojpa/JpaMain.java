@@ -68,10 +68,9 @@ public class JpaMain {
             teamMember.changeTeam(team);
             em.persist(teamMember);
 
-//            em.flush();
-//            em.clear();
+            em.flush();
+            em.clear();
 
-            em.find(Team.class, team.getId());
 
 
             tx.commit();
