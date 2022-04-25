@@ -28,48 +28,22 @@ public class JpaMain {
 
         // code
         try {
-            // 트랜잭션을 지원하는 쓰기 지연
-//            Member member1 = new Member(160L, "A");
-//            Member member2 = new Member(161L, "B");
-//
-//            em.persist(member1);
-//            em.persist(member2);
-//            System.out.println("=========");
 
 
-//             dirtch checking (변경감지)
-//            Member member = em.find(Member.class, 150L);
-//            member.setName("changed A");
+            Movie movie = new Movie();
+            movie.setDirector("aaa");
+            movie.setActor("bbb");
+            movie.setName("test");
+            movie.setPrice(1000);
 
 
-//             flush - 1차캐시는 유지 , 쓰기지연SQL 저장소 쿼리들만 보내서 DB에 반영함
-//            Member member = new Member(200L, "test");
-//
-//            em.persist(member);
-//            em.flush();
-
-
-//            TestMember testMember = new TestMember();
-//            testMember.setId(1L);
-//            testMember.setName("test");
-//            testMember.setRoleType(RoleType.ADMIN);
-
-//            em.persist(testMember);
-//            System.out.println("========");
-
-
-            Team team = new Team();
-            team.setName("TeamA1");
-            em.persist(team);
-
-            TeamMember teamMember = new TeamMember();
-            teamMember.setName("test");
-            // 연관관계 메소드
-            teamMember.changeTeam(team);
-            em.persist(teamMember);
-
+            em.persist(movie);
             em.flush();
             em.clear();
+
+            Movie findMovie = em.find(Movie.class, movie.getId());
+
+            System.out.println(findMovie);
 
 
 
