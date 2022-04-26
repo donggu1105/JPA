@@ -30,21 +30,6 @@ public class JpaMain {
         try {
 
 
-            Movie movie = new Movie();
-            movie.setDirector("aaa");
-            movie.setActor("bbb");
-            movie.setName("test");
-            movie.setPrice(1000);
-
-
-            em.persist(movie);
-            em.flush();
-            em.clear();
-
-            Movie findMovie = em.find(Movie.class, movie.getId());
-
-            System.out.println(findMovie);
-
 
 
             tx.commit();

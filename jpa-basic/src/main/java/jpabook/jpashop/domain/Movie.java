@@ -1,12 +1,9 @@
-package hellojpa;
+package jpabook.jpashop.domain;
 
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("A")
-public class Movie extends Item{
+public class Movie extends Item {
 
     private String director;
     private String actor;
@@ -25,14 +22,5 @@ public class Movie extends Item{
 
     public String getActor() {
         return actor;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Movie{" +
-                "director='" + director + '\'' +
-                ", actor='" + actor + '\'' +
-                '}';
     }
 }
