@@ -20,10 +20,6 @@ public class TeamMember extends BaseEntity {
     private Team team;
 
 
-    @OneToOne
-    @JoinColumn(name = "LOCKER_ID")
-    private Locker locker;
-
     public void setId(Long id) {
 
         this.id = id;

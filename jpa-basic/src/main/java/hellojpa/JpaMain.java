@@ -28,9 +28,18 @@ public class JpaMain {
 
         // code
         try {
+            TeamMember teamMember = new TeamMember();
+            teamMember.setName("test");
+            em.persist(teamMember);
+            em.flush();
+            em.clear();
 
+            TeamMember refMember = em.getReference(TeamMember.class, teamMember.getId());
 
+            em.detach(refMember);
+//            em.close();
 
+            System.out.println(refMember.getName());
 
             tx.commit();
         } catch (Exception e) {
