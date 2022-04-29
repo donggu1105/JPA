@@ -28,18 +28,26 @@ public class JpaMain {
 
         // code
         try {
+
+            Team team = new Team();
+            team.setName("team1");
+            em.persist(team);
             TeamMember teamMember = new TeamMember();
             teamMember.setName("test");
+            teamMember.setTeam(team);
             em.persist(teamMember);
+
+
             em.flush();
             em.clear();
 
-            TeamMember refMember = em.getReference(TeamMember.class, teamMember.getId());
+            TeamMember m = em.find(TeamMember.class, teamMember.getId());
 
-            em.detach(refMember);
-//            em.close();
+            System.out.println("m = " + m.getTeam().getClass());
 
-            System.out.println(refMember.getName());
+            List<TeamMember> members = em.createQuery("select m from Member m", TeamMember.class).getResultList();
+
+
 
             tx.commit();
         } catch (Exception e) {

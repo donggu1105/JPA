@@ -15,7 +15,7 @@ public class TeamMember extends BaseEntity {
 
     //    @Column(name = "TEAM_ID")
 //    private Long teamId;
-    @ManyToOne // MEMBER : TEAM == N : 1  => 멤버입장에서 팀은 MANY : ONE
+    @ManyToOne(fetch = FetchType.EAGER) // MEMBER : TEAM == N : 1  => 멤버입장에서 팀은 MANY : ONE
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
