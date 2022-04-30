@@ -29,23 +29,21 @@ public class JpaMain {
         // code
         try {
 
-            Team team = new Team();
-            team.setName("team1");
-            em.persist(team);
-            TeamMember teamMember = new TeamMember();
-            teamMember.setName("test");
-            teamMember.setTeam(team);
-            em.persist(teamMember);
+            Parent parent = new Parent();
+            Child child1 = new Child();
+            Child child2 = new Child();
 
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent);
 
             em.flush();
             em.clear();
 
-            TeamMember m = em.find(TeamMember.class, teamMember.getId());
+            Parent findParent = em.find(Parent.class, parent.getId());
+            findParent.getChildList().remove(0);
 
-            System.out.println("m = " + m.getTeam().getClass());
-
-            List<TeamMember> members = em.createQuery("select m from Member m", TeamMember.class).getResultList();
 
 
 
