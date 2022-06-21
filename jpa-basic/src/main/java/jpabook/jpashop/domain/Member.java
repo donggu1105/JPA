@@ -1,6 +1,7 @@
 package jpabook.jpashop.domain;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,13 +15,31 @@ public class Member {
 
 
     private String name;
-    private String city;
-    private String street;
-    private String zipcode;
 
+    @Embedded
+    private Period period;
+
+    @Embedded
+    private Address address;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city", column = @Column(name = "WORK_CITY")),
+            @AttributeOverride(name="street", column = @Column(name = "WORK_STREET")),
+            @AttributeOverride(name="zipcode", column = @Column(name = "WORK_ZIPCODE"))
+    })
+    private Address address2;
 
     @OneToMany(mappedBy = "member")
     private List<Order> orders = new ArrayList<>();
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
 
     public void setId(Long id) {
         this.id = id;
@@ -30,17 +49,6 @@ public class Member {
         this.name = name;
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public void setZipcode(String zipcode) {
-        this.zipcode = zipcode;
-    }
 
     public Long getId() {
         return id;
@@ -50,15 +58,4 @@ public class Member {
         return name;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public String getZipcode() {
-        return zipcode;
-    }
 }

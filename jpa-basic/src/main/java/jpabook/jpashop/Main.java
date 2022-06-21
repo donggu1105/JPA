@@ -21,9 +21,6 @@ public class Main {
         tx.begin();
         try{
         // code
-//            Order order = new Order();
-//            order.addOrderItem(new OrderItem());
-
 
 
 
