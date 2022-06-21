@@ -10,6 +10,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class Main {
 
@@ -24,33 +28,28 @@ public class Main {
         tx.begin();
         try{
         // code
-            Member member = new Member();
-            member.setName("member1");
-            member.setAddress(new Address("1", "2", " 3"));
+//            Member member = new Member();
+//            member.setName("kim1");
+//
+//            em.persist(member);
+//
+//            String qlString = "select m from Member m where m.name like '%kim%'";
+//            List<Member> findMembers = em.createQuery(
+//                    qlString, Member.class).getResultList();
+//
+//            for (Member m : findMembers) {
+//                System.out.println(m.getName());
+//            }
 
-            member.getFavoriteFoods().add("프로틴");
-            member.getFavoriteFoods().add("닭가슴살");
-            member.getFavoriteFoods().add("김");
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Member> query = cb.createQuery(Member.class);
 
-            member.getAddressHistory().add(new Address("4", "5", " 6"));
-            member.getAddressHistory().add(new Address("7", "8", " 9"));
-            em.persist(member);
+            Root<Member> m = query.from(Member.class);
 
-            em.flush();
-            em.clear();
-
-
-            System.out.println("=========start=========");
-            Member findMember = em.find(Member.class, member.getId());
-
-            findMember.setAddress(new Address("new1", "new2", "new3"));
-
-            findMember.getFavoriteFoods().remove("프로틴");
-            findMember.getFavoriteFoods().add("한식");
+            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("name"), "kim"));
+            List<Member> resultList = em.createQuery(cq).getResultList();
 
 
-            findMember.getAddressHistory().remove(new Address("new1", "new2", "new3"));
-            findMember.getAddressHistory().add(new Address("add1", "add2", "add3"));
 
             tx.commit();
         } catch (Exception e) {
