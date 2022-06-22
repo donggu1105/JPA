@@ -40,14 +40,14 @@ public class Main {
 //            for (Member m : findMembers) {
 //                System.out.println(m.getName());
 //            }
-
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Member> query = cb.createQuery(Member.class);
-
-            Root<Member> m = query.from(Member.class);
-
-            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("name"), "kim"));
-            List<Member> resultList = em.createQuery(cq).getResultList();
+//
+//            CriteriaBuilder cb = em.getCriteriaBuilder();
+//            CriteriaQuery<Member> query = cb.createQuery(Member.class);
+//
+//            Root<Member> m = query.from(Member.class);
+//
+//            CriteriaQuery<Member> cq = query.select(m).where(cb.equal(m.get("name"), "kim"));
+//            List<Member> resultList = em.createQuery(cq).getResultList();
 
 
 
