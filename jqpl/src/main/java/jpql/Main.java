@@ -44,16 +44,20 @@ public class Main {
             member3.setTeam(team2);
             em.persist(member3);
 
-            em.flush();
+//            em.flush();
+//            em.clear();
+            // flush 자동
+            int resultCount = em.createQuery("update Member m set m.age = 20").executeUpdate();
             em.clear();
-
-            String query = "select m from Member m where m =:member";
-            List<Member> members = em.createNamedQuery("Member.findByUsername", Member.class)
-                    .setParameter("username", "회원1")
-                    .getResultList();
-            for (Member m : members) {
-                System.out.println("회원이름 : " + m.getUsername());
-            }
+            System.out.println(member1.getAge());
+            System.out.println(resultCount);
+//            String query = "select m from Member m where m =:member";
+//            List<Member> members = em.createNamedQuery("Member.findByUsername", Member.class)
+//                    .setParameter("username", "회원1")
+//                    .getResultList();
+//            for (Member m : members) {
+//                System.out.println("회원이름 : " + m.getUsername());
+//            }
 
             tx.commit();
         } catch (Exception e) {
