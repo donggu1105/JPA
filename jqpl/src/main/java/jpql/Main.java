@@ -19,24 +19,33 @@ public class Main {
         tx.begin();
         try {
 
+            Team team = new Team();
+            team.setName("teamA");
+            em.persist(team);
+
             Member member = new Member();
             member.setAge(10);
             member.setUsername("test");
+            member.setTeam(team);
             em.persist(member);
 
             em.flush();
             em.clear();
 
-            List<Member> result = em.createQuery("select m from Member m").getResultList();
-            List<Team> result2 = em.createQuery("select t from Member m join m.team t").getResultList();
-            List<Address> result3 = em.createQuery("select o.address from Order o").getResultList();
+//            List<Member> members = em.createQuery("select m from Member m order by m.age desc")
+//                    .setFirstResult(1)
+//                    .setMaxResults(10)
+//                    .getResultList();
+            String query = "select m, t from Member m left join m.team t on t.name  = 'teamA'";
+            List<Member> result = em.createQuery(query, Member.class)
+//                    .setParameter("teamName", "teamA")
+//                    .setFirstResult(1)
+//                    .setMaxResults(10)
+                    .getResultList();
 
-            List<MemberDTO> resultList = em.createQuery("select new jpql.MemberDTO(m.username, m.age) from Member m").getResultList();
-
-//            Member findMember = result.get(0);
-//            findMember.setAge(20);
-
-
+//            for (Member m : members) {
+//                System.out.println(m);
+//            }
 
             tx.commit();
         } catch (Exception e) {
