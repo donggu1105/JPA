@@ -24,13 +24,19 @@ public class Main {
             member.setUsername("test");
             em.persist(member);
 
-            TypedQuery<Member> query1 = em.createQuery("select m from Member m where m.username = :username", Member.class);
-            query1.setParameter("username", "test");
-            Member singleResult = query1.getSingleResult();
-            System.out.println("singleResult: "+ singleResult.getUsername());
+            em.flush();
+            em.clear();
+
+            List<Member> result = em.createQuery("select m from Member m").getResultList();
+            List<Team> result2 = em.createQuery("select t from Member m join m.team t").getResultList();
+            List<Address> result3 = em.createQuery("select o.address from Order o").getResultList();
+
+            List<MemberDTO> resultList = em.createQuery("select new jpql.MemberDTO(m.username, m.age) from Member m").getResultList();
+
+//            Member findMember = result.get(0);
+//            findMember.setAge(20);
 
 
-            Query query2 = em.createQuery("select m.username, m.age from Member m", Member.class);
 
             tx.commit();
         } catch (Exception e) {
