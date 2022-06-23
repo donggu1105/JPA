@@ -23,19 +23,15 @@ public class Main {
 //            team.setName("teamA");
 //            em.persist(team);
 
-            for (int i = 0; i < 100; i++) {
-
-                Member member = new Member();
-                member.setAge(i);
-                member.setUsername(null);
-    //            member.setTeam(team);
-                em.persist(member);
-            }
+            Member member = new Member();
+            member.setAge(10);
+            member.setUsername("test");
+            em.persist(member);
 
             em.flush();
             em.clear();
 
-            String query = "select coalesce(m.username, '이름없는 회원') from Member m";
+            String query = "select group_concat(m.username) from Member m";
             List<String> members = em.createQuery(query).getResultList();
             for (String m : members) {
                 System.out.println(m);
