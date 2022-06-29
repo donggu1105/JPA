@@ -1,6 +1,7 @@
-package jpabook.jpashop;
+package jpabook.jpashop.service;
 
 import jpabook.jpashop.domain.Member;
+import jpabook.jpashop.repository.MemberRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,8 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-class MemberRepositoryTest {
+public class MemberRepositoryTest {
 
+    @Autowired
+    MemberService memberService;
     @Autowired
     MemberRepository memberRepository;
     
@@ -27,9 +30,9 @@ class MemberRepositoryTest {
         member.setUsername("memberA");
 
         // when
-        Long savedId = memberRepository.save(member);
+        Long savedId = memberService.join(member);
         // then
-        Member findMember = memberRepository.find(savedId);
+        Member findMember = memberRepository.findOne(savedId);
 
         Assertions.assertEquals(findMember.getId(), member.getId());
         Assertions.assertEquals(findMember.getUsername(), member.getUsername());
