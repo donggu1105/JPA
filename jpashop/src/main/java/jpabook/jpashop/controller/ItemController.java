@@ -38,10 +38,10 @@ public class ItemController {
 
         itemService.saveItem(book);
 
-        return "redirect:/itemsList";
+        return "redirect:/items";
     }
 
-    @GetMapping("/itemsList")
+    @GetMapping("/items")
     public String list(Model model) {
         List<Item> items = itemService.findItems();
 
@@ -74,7 +74,7 @@ public class ItemController {
         itemService.updateItem(itemId, bookForm.getName(), bookForm.getPrice(), bookForm.getStockQuantity());
 
 
-        return "redirect:/";
+        return "redirect:/items";
     }
 
 
