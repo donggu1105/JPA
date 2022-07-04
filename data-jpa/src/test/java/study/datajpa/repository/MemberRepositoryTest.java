@@ -117,9 +117,40 @@ class MemberRepositoryTest {
 
         int resultCount = memberRepository.bulkAgePlus(20);
 
+    }
 
+    @Test
+    public void findMemberLazy() {
+        Team teamA = new Team("teamA");
+        Team teamB = new Team("teamA");
+        teamRepository.save(teamA);
+        teamRepository.save(teamB);
+
+        Member member1 = new Member("member1", 10);
+        Member member2 = new Member("member1", 20);
+        memberRepository.save(member1);
+        memberRepository.save(member2);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        List<Member> members = memberRepository.findMembersFetchJoin();
 
     }
 
 
+    @Test
+    public void queryHint() {
+        Member member1 = memberRepository.save(new Member("member1", 10));
+        entityManager.flush();
+        entityManager.clear();
+
+
+        memberRepository.findById(member1.getId());
+    }
+
+    @Test
+    public void callCustom() {
+        memberRepository.findMEmberCutstom();
+    }
 }
