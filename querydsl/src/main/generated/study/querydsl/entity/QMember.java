@@ -1,4 +1,4 @@
-package jpabook.jpashop.domain;
+package study.querydsl.entity;
 
 import static com.querydsl.core.types.PathMetadataFactory.*;
 
@@ -16,19 +16,15 @@ import com.querydsl.core.types.dsl.PathInits;
 @Generated("com.querydsl.codegen.DefaultEntitySerializer")
 public class QMember extends EntityPathBase<Member> {
 
-    private static final long serialVersionUID = -571917283L;
+    private static final long serialVersionUID = -769675599L;
 
     private static final PathInits INITS = PathInits.DIRECT2;
 
     public static final QMember member = new QMember("member1");
 
-    public final QAddress address;
-
     public final NumberPath<Integer> age = createNumber("age", Integer.class);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);
-
-    public final ListPath<Order, QOrder> orders = this.<Order, QOrder>createList("orders", Order.class, QOrder.class, PathInits.DIRECT2);
 
     public final QTeam team;
 
@@ -52,7 +48,6 @@ public class QMember extends EntityPathBase<Member> {
 
     public QMember(Class<? extends Member> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
-        this.address = inits.isInitialized("address") ? new QAddress(forProperty("address")) : null;
         this.team = inits.isInitialized("team") ? new QTeam(forProperty("team")) : null;
     }
 
