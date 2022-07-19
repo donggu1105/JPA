@@ -1,5 +1,6 @@
 package jpabook.jpashop;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.QMember;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+
+import java.util.List;
 
 import static jpabook.jpashop.domain.QMember.*;
 
@@ -50,6 +53,36 @@ public class SampleTest {
 
 
         Assertions.assertThat(findMember.getUsername()).isEqualTo("member1");
+
+    }
+
+    @Test
+    public void searchAndParm() {
+
+        Member findMember = jpaQueryFactory
+                .selectFrom(member)
+                .where(
+                        member.username.eq("member1"),member.age.eq(10)
+                ).fetchOne();
+
+
+        Assertions.assertThat(findMember.getUsername()).isEqualTo("member1");
+
+    }
+
+    @Test
+    public void resultFetch() {
+        List<Member> fetch = jpaQueryFactory
+                .selectFrom(member)
+                .fetch();
+
+        Member fetchOne = jpaQueryFactory
+                .selectFrom(member)
+                .fetchOne();
+
+
+        QueryResults<Member> results = jpaQueryFactory.selectFrom(member).fetchResults();
+
 
     }
 }
