@@ -83,6 +83,38 @@ public class SampleTest {
 
         QueryResults<Member> results = jpaQueryFactory.selectFrom(member).fetchResults();
 
+    }
 
+    @Test
+    public void sort() {
+        em.persist(new Member(null, 100));
+        em.persist(new Member("member5", 100));
+        em.persist(new Member("member6", 100));
+
+        List<Member> result = jpaQueryFactory
+                .selectFrom(member)
+                .where(member.age.eq(100))
+                .orderBy(member.age.desc(), member.username.asc().nullsLast()).fetch();
+
+
+        Member member5 = result.get(0);
+        Member member6 = result.get(1);
+        Member memberNull = result.get(2);
+
+        Assertions.assertThat(member5.getUsername()).isEqualTo("member5");
+    }
+
+    @Test
+    public void paging1() {
+        QueryResults<Member> queryResults = jpaQueryFactory
+                .selectFrom(member)
+                .orderBy(member.username.desc())
+                .offset(1)
+                .limit(2)
+                .fetchResults();
+
+
+        Assertions.assertThat(queryResults.getTotal()).isEqualTo(4);
+        Assertions.assertThat(queryResults.getLimit()).isEqualTo(2);
     }
 }
