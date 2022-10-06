@@ -16,21 +16,21 @@ import javax.persistence.PersistenceContext;
 @Transactional
 public class QuerydslBasicTest {
 
-    @Autowired
-    EntityManager em;
+//    @Autowired
+//    EntityManager em;
 
     JPAQueryFactory queryFactory;
     @BeforeEach
     public void before() {
         Team team = new Team("team");
-        em.persist(team);
+//        em.persist(team);
         Member member = new Member("member1", 40, team);
-        em.persist(member);
+//        em.persist(member);
     }
 
     @Test
     public void startQuery() {
-        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
+//        JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
 
 

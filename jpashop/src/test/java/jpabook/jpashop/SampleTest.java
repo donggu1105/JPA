@@ -4,6 +4,7 @@ import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.QMember;
+import jpabook.jpashop.domain.QTeam;
 import jpabook.jpashop.domain.Team;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,6 +18,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static jpabook.jpashop.domain.QMember.*;
+import static jpabook.jpashop.domain.QTeam.*;
 
 @SpringBootTest
 @Transactional
@@ -116,5 +118,47 @@ public class SampleTest {
 
         Assertions.assertThat(queryResults.getTotal()).isEqualTo(4);
         Assertions.assertThat(queryResults.getLimit()).isEqualTo(2);
+    }
+
+    @Test
+    public void aggregate() {
+        jpaQueryFactory.select(member.count(), member.age.sum(), member.age.avg())
+                .from(member)
+                .fetch();
+
+    }
+
+    @Test
+    public void test() throws Exception {
+        // given
+        jpaQueryFactory
+                .select(team.name, member.age.avg())
+                .from(member)
+                .join(member.team, team)
+                .groupBy(team.name)
+                .fetch();
+        // when
+
+        // then
+
+    }
+
+    /**
+     * 팀 A에 소속된 모든 회원
+     */
+    @Test
+    public void join() {
+
+        List<Member> result = jpaQueryFactory
+                .selectFrom(member)
+                .join(member.team, team)
+                .where(team.name.eq("teamA"))
+                .fetch();
+
+        Assertions.assertThat(result)
+                .extracting("username")
+                .containsExactly("member1", "member2");
+
+
     }
 }
