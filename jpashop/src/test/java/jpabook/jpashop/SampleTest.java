@@ -437,4 +437,39 @@ public class SampleTest {
         // then
 
     }
+
+    @Test
+    public void  simp_projection() throws Exception {
+        // given
+        List<String> result = jpaQueryFactory
+                .select(member.username)
+                .from(member)
+                .fetch();
+        // when
+
+        System.out.println(result);
+        // then
+
+    }
+
+    @Test
+    public void tupleProjection() throws Exception {
+        // given
+        List<Tuple> result = jpaQueryFactory
+                .select(member.username, member.age)
+                .from(member)
+                .fetch();
+
+        // when
+        for (Tuple tuple : result) {
+            String username = tuple.get(member.username);
+            Integer age = tuple.get(member.age);
+
+            System.out.println("username = " + username);
+            System.out.println("age = " + age);
+
+        }
+        // then
+
+    }
 }
