@@ -2,6 +2,7 @@ package jpabook.jpashop;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.jpashop.domain.Member;
@@ -358,6 +359,43 @@ public class SampleTest {
         // when
         for (Tuple tuple : result) {
             System.out.println(tuple);
+        }
+        // then
+
+    }
+
+
+    @Test
+    public void basicCase() throws Exception {
+        // given
+        List<String> result = jpaQueryFactory
+                .select(member.age
+                        .when(10).then("열살")
+                        .when(20).then("스무살")
+                        .otherwise("기타")
+                )
+                .from(member)
+                .fetch();
+        // when
+        for (String s : result) {
+            System.out.println(s);
+        }
+        // then
+
+    }
+
+    @Test
+    public void complexCase() throws Exception {
+        // given
+        List<String> result = jpaQueryFactory
+                .select(new CaseBuilder()
+                        .when(member.age.between(0, 20)).then("0~20살")
+                        .otherwise("나머지")
+                ).from(member)
+                .fetch();
+        // when
+        for (String s : result) {
+            System.out.println(s);
         }
         // then
 
