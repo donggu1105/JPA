@@ -2,6 +2,7 @@ package jpabook.jpashop;
 
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.Tuple;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jpabook.jpashop.domain.Member;
 import jpabook.jpashop.domain.QMember;
@@ -294,4 +295,72 @@ public class SampleTest {
         // then
 
     }
+
+
+    /*
+    나이가 가장 많은 회원을 조회
+
+     */
+    @Test
+    public void subQuery() throws Exception {
+
+        QMember memberSub = new QMember("memberSub");
+        // given
+        List<Member> result = jpaQueryFactory
+                .selectFrom(member)
+                .where(member.age.eq(
+                        JPAExpressions.select(memberSub.age.max())
+                                .from(memberSub)
+                ))
+                .fetch();
+
+        // when
+
+        // then
+        Assertions.assertThat(result).extracting("age").containsExactly(40);
+    }
+
+    /*
+      나이가 평균이상인 회원
+
+ */
+    @Test
+    public void subQueryGoe() throws Exception {
+
+        QMember memberSub = new QMember("memberSub");
+        // given
+        List<Member> result = jpaQueryFactory
+                .selectFrom(member)
+                .where(member.age.goe(
+                        JPAExpressions.select(memberSub.age.avg())
+                                .from(memberSub)
+                ))
+                .fetch();
+
+        // when
+
+        // then
+        Assertions.assertThat(result).extracting("age").containsExactly(20, 30, 40);
+    }
+
+    @Test
+    public void selectSubQuery() throws Exception {
+        // given
+
+        QMember memberSub = new QMember("memberSub");
+
+        List<Tuple> result = jpaQueryFactory
+                .select(member.username,
+                        JPAExpressions.select(memberSub.age.avg())
+                                .from(memberSub)
+                ).from(member).fetch();
+
+        // when
+        for (Tuple tuple : result) {
+            System.out.println(tuple);
+        }
+        // then
+
+    }
+
 }
